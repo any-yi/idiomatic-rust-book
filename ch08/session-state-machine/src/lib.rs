@@ -11,6 +11,7 @@ pub struct Session<State: SessionState = Initial> {
     phantom: PhantomData<State>,
 }
 
+// 状态机的状态通过单元结构体模拟
 #[derive(Debug, Default)]
 pub struct Initial;
 #[derive(Debug, Default)]
@@ -55,6 +56,7 @@ impl Session<Initial> {
 }
 
 impl Session<Anonymous> {
+    // 状态机通过边进行状态转移，状态机的边通过方法模拟
     pub fn authenticate(
         self,
         username: &str,
@@ -69,7 +71,7 @@ impl Session<Anonymous> {
                 phantom: PhantomData,
             })
         } else {
-            Err(self)
+            Err(self) // 状态机的环 在边转移状态的过程中通过返回自身状态构造
         }
     }
 }
